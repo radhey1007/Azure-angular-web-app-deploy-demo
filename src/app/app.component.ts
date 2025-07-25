@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'azure-angular-app-demo';
+  title = 'azure-angular-app-deploy-demo';
 }
