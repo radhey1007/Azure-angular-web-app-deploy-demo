@@ -13,38 +13,29 @@ jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    name: Build and Deploy Angular SSR (Static Mode)
+    name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular SSR App
-        run: npm run build:ssr
+      - name: Build Angular app
+        run: npm run build
 
-      - name: Deploy Static Site (only browser output)
+      - name: Deploy to Azure Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<YOUR_TOKEN_ID> }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_CALM_TREE_094C96F10 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"  # Root of your project
-          output_location: "dist/azure-angular-app-demo/browser"  # ⬅️ important
-          api_location: ""  # No API used
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<YOUR_TOKEN_ID> }}
-          action: "close"
+          app_location: "/"                          # Root of your Angular app
+          output_location: "dist/azure-angular-app-demo"  # Must match your angular.json outputPath
