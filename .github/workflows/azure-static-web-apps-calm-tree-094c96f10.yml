@@ -38,4 +38,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/"                          # Root of your Angular app
-          output_location: "dist/azure-angular-app-demo"  # Must match your angular.json outputPath
+          output_location: "dist/azure-angular-app-demo/browser"  # Must match your angular.json outputPath
